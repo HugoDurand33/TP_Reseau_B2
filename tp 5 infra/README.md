@@ -218,3 +218,40 @@ wget -O /tmp/netdata-kickstart.sh https://get.netdata.cloud/kickstart.sh && sh /
 ```
 
 🌞 Configurer une sonde TCP
+
+```
+[hugo@hosting netdata]$ sudo ./edit-config go.d/portcheck.conf
+jobs:
+  - name: local
+    host: 10.1.1.10
+    ports: [9999]
+```
+
+🌞 Alerting Discord
+
+```
+[hugo@hosting netdata]$ sudo ./edit-config health_alarm_notify.conf
+SEND_DISCORD="YES"
+
+# Create a webhook by following the official documentation -
+# https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks
+DISCORD_WEBHOOK_URL=""https://discord.com/api/webhooks/1299378387084775517/f2v5NF-R0BEBr-59shlkczVEAjQDM_iyLqJ0vP-8TSFUX-N_Gl780aQF9WAC4TkfGBoM
+
+# if a role's recipients are not configured, a notification will be send to
+# this discord channel (empty = do not send a notification for unconfigured
+# roles):
+DEFAULT_RECIPIENT_DISCORD="alerts"
+```
+
+```
+netdata on hosting
+APP
+ — Aujourd’hui à 16:27
+hosting is critical, portcheck_local.port_9999_status, Portcheck fails for 10.1.1.10:9999 = 100%
+Portcheck fails for 10.1.1.10:9999 = 100%
+Percentage of failed TCP connections to host 10.1.1.10 port 9999 in the last 5 minutes
+portcheck_local.port_9999_status
+Image
+
+hosting•Aujourd’hui à 16:27
+```
